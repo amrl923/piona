@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Портфолио</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #e5e5e5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6b7280, #1e3a8a);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .theme-toggle,
+        .sound-toggle {
+            position: absolute;
+            top: 15px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            background: #fff;
+            color: #1e3a8a;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle {
+            right: 15px;
+        }
+
+        .sound-toggle {
+            left: 15px;
+        }
+
+        body.dark .theme-toggle,
+        body.dark .sound-toggle {
+            background: #333;
+            color: #fff;
+        }
+
+        .theme-toggle:hover,
+        .sound-toggle:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        body.dark nav {
+            background-color: #1c1c1c;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #1e3a8a;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: #3b82f6;
+        }
+
+        nav ul li a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #3b82f6;
+            transition: width 0.3s;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        body.dark nav ul li a {
+            color: #fff;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        body.dark h2 {
+            color: #3b82f6;
+        }
+
+        .about,
+        .contact {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        body.dark .about,
+        body.dark .contact {
+            background-color: #1c1c1c;
+            color: #e5e5e5;
+        }
+
+        .about:hover,
+        .contact:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        body.dark .project-card {
+            background-color: #1c1c1c;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            padding: 1rem;
+            color: #1e3a8a;
+        }
+
+        .project-card p {
+            padding: 0 1rem 1rem;
+            color: #666;
+        }
+
+        .project-card a {
+            display: inline-block;
+            margin: 0 1rem 1rem;
+            text-decoration: none;
+            color: #3b82f6;
+            font-weight: bold;
+        }
+
+        body.dark .project-card h3 {
+            color: #3b82f6;
+        }
+
+        body.dark .project-card p {
+            color: #bbb;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .skill {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            transition: transform 0.2s;
+        }
+
+        .skill:hover {
+            transform: scale(1.1);
+        }
+
+        .contact a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #1e3a8a;
+            color: white;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Сейтмуратов Амирлан</h1>
+        <p>Веб-разработчик | Начинающий программист по интерфейсам и дизайну</p>
+        <button class="theme-toggle">🌙 Тема</button>
+        <button class="sound-toggle">🔊 Звуки</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#projects">Проекты</a></li>
+            <li><a href="#skills">Навыки</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+    </nav>
+
+    <section id="about" class="about" data-aos="fade-up">
+        <h2>Обо мне</h2>
+        <p>Привет! Я Амирлан Сейтмуратов, мне 14 лет, и я начинающий веб-разработчик. Увлекаюсь программированием и
+            созданием веб-приложений с использованием HTML, CSS и JavaScript. Особенно люблю работать с JavaScript,
+            чтобы добавлять интерактивность и функциональность проектам. Также умею использовать инструменты Tilda,
+            Figma и Canva для создания прототипов и дизайна. Моя цель — развивать свои навыки и создавать крутые
+            проекты, которые вдохновляют!</p>
+    </section>
+
+    <section id="projects">
+        <h2 data-aos="fade-right">Проекты</h2>
+        <div class="projects-grid">
+            <div class="project-card" data-aos="fade-up">
+                <img src="img/playbox.png" alt="Проект 1">
+                <h3>PlayBox</h3>
+                <p>Разработал систему простых игр и инструментов.</p>
+                <a href="#">Посмотреть проект</a>
+            </div>
+            <div class="project-card" data-aos="zoom-in">
+                <img src="img/doner.png" alt="Проект 2">
+                <h3>Сайт-визитка</h3>
+                <p>Сайт про донерку в Актобе.</p>
+                <a href="#">Посмотреть проект</a>
+            </div>
+            <div class="project-card" data-aos="fade-left">
+                <img src="img/cube.png" alt="Проект 3">
+                <h3>Физический куб</h3>
+                <p>Вы можете бросать, удалять и ломать кубы.</p>
+                <a href="#">Посмотреть проект</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" data-aos="flip-up">
+        <h2>Навыки</h2>
+        <div class="skills-grid">
+            <span class="skill">HTML</span>
+            <span class="skill">CSS</span>
+            <span class="skill">JavaScript</span>
+            <span class="skill">JSON API</span>
+            <span class="skill">TILDA</span>
+            <span class="skill">FIGMA</span>
+            <span class="skill">CANVA</span>
+        </div>
+    </section>
+
+    <section id="contact" class="contact" data-aos="fade-up">
+        <h2>Контакты</h2>
+        <p>Email: <a href="mailto:seytmuratovamirlan923@gmail.com">seytmuratovamirlan923@gmail.com</a></p>
+        <p>Телефон: <a href="tel:+77767713215">+7 (776) 771-32-15</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Сейтмуратов Амирлан. Все права защищены.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // Copyright © 2025 amrl923
+        // Licensed under the MIT License
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        const themeBtn = document.querySelector('.theme-toggle');
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            themeBtn.textContent = document.body.classList.contains('dark') ? "☀️ Светлая" : "🌙 Тёмная";
+        });
+        let hoverSound, clickSound, popSound;
+        let soundsReady = false;
+        let soundEnabled = true;
+
+        function initSounds() {
+            if (soundsReady) return;
+
+            hoverSound = new Audio("sounds/hover.mp3");
+            clickSound = new Audio("sounds/click.mp3");
+            popSound = new Audio("sounds/pop.mp3");
+
+            hoverSound.volume = 0.3;
+            clickSound.volume = 0.6;
+            popSound.volume = 0.4;
+
+            hoverSound.preload = "auto";
+            clickSound.preload = "auto";
+            popSound.preload = "auto";
+
+            soundsReady = true;
+        }
+
+        document.addEventListener("click", initSounds, { once: true });
+        const soundBtn = document.querySelector('.sound-toggle');
+        soundBtn.addEventListener("click", () => {
+            soundEnabled = !soundEnabled;
+            soundBtn.textContent = soundEnabled ? "🔊 Звуки" : "🔇 Звуки";
+        });
+        document.querySelectorAll("a, button, .project-card, .about, .contact").forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                if (soundsReady && soundEnabled) {
+                    hoverSound.currentTime = 0;
+                    hoverSound.play().catch(() => { });
+                }
+            });
+            el.addEventListener("click", () => {
+                if (soundsReady && soundEnabled) {
+                    clickSound.currentTime = 0;
+                    clickSound.play().catch(() => { });
+                }
+            });
+        });
+        document.querySelectorAll(".skill").forEach(skill => {
+            skill.addEventListener("mouseenter", () => {
+                if (soundsReady && soundEnabled) {
+                    popSound.currentTime = 0;
+                    popSound.play().catch(() => { });
+                }
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
